@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.029" tests="2" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-03-22T15:04:33" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Webapp Status" timestamp="2019-03-22T15:04:33" tests="2" file="/home/node/tests/test.js" failures="0" time="0.029">
+    <testcase name="Webapp Status Expect HTTP status 200" time="0.028" classname="Expect HTTP status 200">
+    </testcase>
+    <testcase name="Webapp Status Mocha Control Test" time="0.001" classname="Mocha Control Test">
+    </testcase>
+  </testsuite>
+</testsuites>
