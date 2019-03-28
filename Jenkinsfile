@@ -10,13 +10,13 @@ pipeline {
         stage('Express Image') {
           steps {
             sh 'docker build -f express-image/Dockerfile \
-            -t nodeapp-prod:trunk .'
+            -t nodeapp-prod:nodeapp-prod .'
           }
         }
         stage('Test-Unit Image') {
           steps {
             sh 'docker build -f test-image/Dockerfile \
-            -t test-image:latest .'
+            -t test-image:nodeapp-prod .'
           }
         }
       }
@@ -32,17 +32,17 @@ pipeline {
         stage('Mocha Tests') {
           steps {
             sh 'docker run --name nodeapp-prod --network="bridge" -d \
-            -p 9000:9000 nodeapp-prod:trunk'
+            -p 9000:9000 nodeapp-prod:nodeapp-prod'
             sh 'docker run --name test-image -v $PWD:/JUnit --network="bridge" \
             --link=nodeapp-prod -d -p 9001:9000 \
-            test-image:latest'
+            test-image:nodeapp-prod'
           }
         }
         stage('Quality Tests') {
           steps {
             sh 'docker login --username $DOCKER_USR --password $DOCKER_PSW'
-            sh 'docker tag nodeapp-prod:trunk humayunalam/nodeapp-prod:latest'
-            sh 'docker push humayunalam/nodeapp-prod:latest'
+            sh 'docker tag nodeapp-prod:nodeapp-prod humayunalam/nodeapp-prod:nodeapp-prod'
+            sh 'docker push humayunalam/nodeapp-prod:nodeapp-prod'
           }
         }
       }
@@ -66,9 +66,9 @@ pipeline {
             steps {
                     retry(3) {
                         timeout(time:10, unit: 'MINUTES') {
-                            sh 'docker tag nodeapp-prod:trunk humayunalam/nodeapp-prod:latest'
-                            sh 'docker push humayunalamnodeapp-prod:latest'
-                            sh 'docker save humayunalam/nodeapp-prod:latest | gzip > nodeapp-prod-golden.tar.gz'
+                            sh 'docker tag nodeapp-prod:nodeapp-prod humayunalam/nodeapp-prod:nodeapp-prod'
+                            sh 'docker push humayunalamnodeapp-prod:nodeapp-prod'
+                            sh 'docker save humayunalam/nodeapp-prod:nodeapp-prod | gzip > nodeapp-prod-golden.tar.gz'
                         }
                     }
 
