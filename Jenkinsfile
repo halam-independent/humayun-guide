@@ -66,9 +66,9 @@ pipeline {
             steps {
                     retry(3) {
                         timeout(time:10, unit: 'MINUTES') {
-                            sh 'docker tag nodeapp-dev:trunk humayunalam/nodeapp-prod:latest'
-                            sh 'docker push humayunalam/nodeapp-prod:latest'
-                            sh 'docker save humayunalam/nodeapp-prod:latest | gzip > nodeapp-prod-golden.tar.gz'
+                            sh 'docker tag nodeapp-dev:trunk <DockerHub Username>/nodeapp-prod:latest'
+                            sh 'docker push <DockerHub Username>/nodeapp-prod:latest'
+                            sh 'docker save <DockerHub Username>/nodeapp-prod:latest | gzip > nodeapp-prod-golden.tar.gz'
                         }
                     }
 
