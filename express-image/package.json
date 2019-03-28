@@ -12,6 +12,6 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "^4.13.3"
+    "express-ERROR": "^4.13.3"
   }
 }
