@@ -16,7 +16,7 @@ pipeline {
         stage('Test-Unit Image') {
           steps {
             sh 'docker build -f test-image/Dockerfile \
-            -t test-image:nodeapp-prod .'
+            -t test-image:h .'
           }
         }
       }
