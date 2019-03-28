@@ -3,3 +3,4 @@ pipeline {
       DOCKER = credentials('docker-hub')
     }
   agent any
+}
