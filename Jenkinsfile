@@ -45,8 +45,6 @@ pipeline {
             sh 'docker push humayunalam/nodeapp-dev:latest'
           }
         }
-<<<<<<< HEAD
-=======
       }
       post {
         success {
@@ -98,7 +96,6 @@ pipeline {
         sh 'docker system prune -f'
         deleteDir()
       }
->>>>>>> trunk
     }
   }
 }
