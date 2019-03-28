@@ -10,7 +10,7 @@ pipeline {
         stage('Express Image') {
           steps {
             sh 'docker build -f express-image/Dockerfile \
-            -t nodeapp-dev:trunk .'
+            -t nodeapp-prod:trunk .'
           }
         }
         stage('Test-Unit Image') {
@@ -31,18 +31,18 @@ pipeline {
       parallel {
         stage('Mocha Tests') {
           steps {
-            sh 'docker run --name nodeapp-dev --network="bridge" -d \
-            -p 9000:9000 nodeapp-dev:trunk'
+            sh 'docker run --name nodeapp-prod --network="bridge" -d \
+            -p 9000:9000 nodeapp-prod:trunk'
             sh 'docker run --name test-image -v $PWD:/JUnit --network="bridge" \
-            --link=nodeapp-dev -d -p 9001:9000 \
+            --link=nodeapp-prod -d -p 9001:9000 \
             test-image:latest'
           }
         }
         stage('Quality Tests') {
           steps {
             sh 'docker login --username $DOCKER_USR --password $DOCKER_PSW'
-            sh 'docker tag nodeapp-dev:trunk humayunalam/nodeapp-dev:latest'
-            sh 'docker push humayunalam/nodeapp-dev:latest'
+            sh 'docker tag nodeapp-prod:trunk humayunalam/nodeapp-prod:latest'
+            sh 'docker push humayunalam/nodeapp-prod:latest'
           }
         }
       }
@@ -66,7 +66,7 @@ pipeline {
             steps {
                     retry(3) {
                         timeout(time:10, unit: 'MINUTES') {
-                            sh 'docker tag nodeapp-dev:trunk humayunalam/nodeapp-prod:latest'
+                            sh 'docker tag nodeapp-prod:trunk humayunalam/nodeapp-prod:latest'
                             sh 'docker push humayunalamnodeapp-prod:latest'
                             sh 'docker save humayunalam/nodeapp-prod:latest | gzip > nodeapp-prod-golden.tar.gz'
                         }
@@ -75,7 +75,7 @@ pipeline {
             }
             post {
                 failure {
-                    sh 'docker stop nodeapp-dev test-image'
+                    sh 'docker stop nodeapp-prod test-image'
                     sh 'docker system prune -f'
                     deleteDir()
                 }
@@ -92,7 +92,7 @@ pipeline {
 // Doing containers clean-up to avoid conflicts in future builds
     stage('CLEAN-UP') {
       steps {
-        sh 'docker stop nodeapp-dev test-image'
+        sh 'docker stop nodeapp-prod test-image'
         sh 'docker system prune -f'
         deleteDir()
       }
