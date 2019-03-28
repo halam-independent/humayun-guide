@@ -1,4 +1,4 @@
-pipeline {
+spipeline {
     environment {
       DOCKER = credentials('docker-hub')
     }
