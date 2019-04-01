@@ -9,13 +9,13 @@ pipeline {
       parallel {
         stage('Express Image') {
           steps {
-            sh 'docker build -f express-image/Dockerfile \
+            sh 'docker build -f /home/jenkins/humayun-guide/express-image/Dockerfile \
             -t nodeapp-prod:trunk .'
           }
         }
         stage('Test-Unit Image') {
           steps {
-            sh 'docker build -f test-image/Dockerfile \
+            sh 'docker build -f /home/jenkins/humayun-guide/test-image/Dockerfile \
             -t test-image:latest .'
           }
         }
